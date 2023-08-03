@@ -1,0 +1,10 @@
+.cart {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-flow: wrap;
+}
+
+.cart1, .cart2, .cart3 {
+    border: 2px solid black;
+}
+

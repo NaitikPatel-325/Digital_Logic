@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="cover">
+        <h1>Convert any decimal into any base</h1>
+        <label for="base-input">Enter The Number:</label>
+        <input type="number" id="base-input" name="base">
+        <label for="conversion-type">Select Base:</label>
+        <select id="conversion-type" name="conversionType" onchange="handleConversionType()">
+            <option value="binary">Binary</option>
+            <option value="octal">Octal</option>
+            <option value="hexadecimal">Hexadecimal</option>
+            <option value="other">other</option>
+        </select>
+        <button type="button" onclick="conversion()">Convert It</button>
+        <p id="converted-number">The Number is converted into </p>
+    </div>
+</body>
+</html>
