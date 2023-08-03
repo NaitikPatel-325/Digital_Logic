@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth Table</title>
+</head>
+<body>
+
+    <div class="cover">
+        <h1>Make a Truth table for any function</h1>
+        <label for="input">Enter The Function:</label>
+        <input type="text" id="input">
+        <button type="button" onclick="makeTable()">Go</button>
+        <p id="converted-number"></p>
+    </div>
+
+
+<script>
+
+    function findDistinctAlphabets(inputString) {
+      const alphabets = inputString.match(/[A-Za-z]/g);
+
+      if (!alphabets) {
+        return [];
+      }
+
+      const distinctAlphabets = new Set(alphabets);
+      const sortedDistinctAlphabets = Array.from(distinctAlphabets).sort();
+      return sortedDistinctAlphabets;
+    }
+
+    function decimalToBinaryStrings(n) {
+        const binaryStrings = [];
+        for (let i = 0; i < n; i++) {
+            const binaryString = i.toString(2).padStart(Math.ceil(Math.log2(n)), '0');
+            binaryStrings.push(binaryString);
+        }
+        return binaryStrings;
+    }
+
+    function makeTable() {
+      const inputString = document.getElementById('input').value;
+      const distinctAlphabets = findDistinctAlphabets(inputString);
+
+      const columns = distinctAlphabets.length;
+      const rows = 2 ** columns;
+
+      const binaryArray = decimalToBinaryStrings(rows); 
+      console.log(binaryArray)
+
+      const table = document.createElement('table');
+
+      // Create the header row with column names
+      const headerRow = document.createElement('tr');
+      for (let column of distinctAlphabets) {
+        const headerCell = document.createElement('th');
+        headerCell.textContent = column;
+        headerRow.appendChild(headerCell);
+      }
+      table.appendChild(headerRow);
+
+      // Create the data rows
+      for (let i = 0; i < rows; i++) {
+        const row = document.createElement('tr');
+        for (let j = 0; j < columns; j++) {
+          const cell = document.createElement('td');
+        //   cell.textContent = `${j}`;
+        cell.textContent = binaryArray[i][j];
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+
+      document.body.appendChild(table);
+    }
+
+
+</script>
+</body>
+
+
+</html>
