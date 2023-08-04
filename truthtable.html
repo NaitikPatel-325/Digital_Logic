@@ -38,6 +38,8 @@
         }
         return binaryStrings;
     }
+
+
     function evaluateExpression(expression, values) {
       const stack = [];
 
@@ -64,15 +66,36 @@
       return stack.pop();
     }
 
-    function convert(expression) {
 
-      if(expression===""){
-        alert("Please Insert The Message");
-      }
+
+
+
+    function convert(expression) {
       let result = expression.replace(/'/g, '!');
       // result = expression.replace(/+/g, '||');
       // result = expression.replace(/\*/g, '&&');
       return result.replace(/\+/g, '||').replace(/\*/g, '&&');
+    }
+
+    function evalExp( exp , values){
+
+      // Step 1: Replace the variables in the expression with their corresponding values
+      const replacedExp = exp.replace(/[a-zA-Z]+/g, (match) => {
+        const variable = match.trim();
+        return values[variable] !== undefined ? values[variable] : match;
+      });
+
+      // Step 2: Use eval to evaluate the modified expression
+      try {
+        const result = eval(replacedExp);
+        return result;
+      } catch (error) {
+        console.error("Error while evaluating the expression:", error);
+        return null;
+      }
+
+
+
     }
 
     function makeTable() {
@@ -120,11 +143,19 @@
         for (let j = 0; j <=columns; j++) {
           const cell = document.createElement('td');
           if( j == columns){
-              const values = {};
+             const values = {};
               for (let k = 0; k < distinctAlphabets.length; k++) {
-                values[distinctAlphabets[i]] = parseInt(temp.charAt(i));
+                values[distinctAlphabets[k]] = parseInt(temp.charAt(k));
               }
-              const result = evaluateExpression(convertedExpression , values);
+              // const result = evaluateExpression(convertedExpression , values);
+              const result = evalExp(convertedExpression , values);
+              if(result == 'true'){
+                result = 1;
+              }
+              else if( result == 'false'){
+                console.log(result)
+                result = 0;
+              }
               cell.textContent = result;
           }else{
             temp += binaryArray[i][j] ;
@@ -135,15 +166,8 @@
         }
         table.appendChild(row);
       }
-
-
-
-
     }
 
 
 </script>
 </body>
-
-
-</html>
