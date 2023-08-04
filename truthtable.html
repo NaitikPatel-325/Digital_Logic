@@ -9,14 +9,21 @@
 
     <div class="cover">
         <h1>Make a Truth table for any function</h1>
+        <p><b>Note: Put '+' for OR , '*' for AND and '!' for complements</b></p>
         <label for="input">Enter The Function:</label>
         <input type="text" id="input">
         <button type="button" onclick="makeTable()">Go</button>
-        <p id="converted-number"></p>
+        <table id="tTable"></table>
     </div>
 
 
 <script>
+ 
+  
+
+    
+
+
 
     function findDistinctAlphabets(inputString) {
       const alphabets = inputString.match(/[A-Za-z]/g);
@@ -38,18 +45,60 @@
         }
         return binaryStrings;
     }
+    function evaluateExpression(expression, values) {
+      const stack = [];
+
+      const tokens = expression.split(/\s*([|&()])\s*/).filter(Boolean);
+
+      for (const token of tokens) {
+        if (token === "||" || token === "&&") {
+          const op2 = stack.pop();
+          const op1 = stack.pop();
+
+          if (token === "||") {
+            stack.push(op1 || op2);
+          } else {
+            stack.push(op1 && op2);
+          }
+        } else if (token === "(" || token === ")") {
+          console.error("Invalid expression. Parentheses not supported.");
+          return null;
+        } else {
+          stack.push(values[token]);
+        }
+      }
+
+      return stack.pop();
+    }
+
+    function convert(expression) {
+      let result = expression.replace(/'/g, '!');
+      // result = expression.replace(/+/g, '||');
+      // result = expression.replace(/\*/g, '&&');
+      return result.replace(/\+/g, '||').replace(/\*/g, '&&');
+    }
 
     function makeTable() {
+
+      let table = document.getElementById('tTable');
+
+      // Remove all child elements (rows) from the table before entering the new datas
+      while (table.firstChild) {
+        table.removeChild(table.firstChild);
+      }
+
       const inputString = document.getElementById('input').value;
+      const convertedExpression = convert(inputString);
+      console.log(convertedExpression)
+
+
       const distinctAlphabets = findDistinctAlphabets(inputString);
 
-      const columns = distinctAlphabets.length;
+      const columns = distinctAlphabets.length ;
       const rows = 2 ** columns;
 
-      const binaryArray = decimalToBinaryStrings(rows); 
-      console.log(binaryArray)
+      const binaryArray = decimalToBinaryStrings(rows);  // array having the values of all variables per row
 
-      const table = document.createElement('table');
 
       // Create the header row with column names
       const headerRow = document.createElement('tr');
@@ -60,19 +109,39 @@
       }
       table.appendChild(headerRow);
 
+      // Add an additional column header for the result/answer
+      const resultHeaderCell = document.createElement('th');
+      resultHeaderCell.textContent = "Result";
+      headerRow.appendChild(resultHeaderCell);
+
+      table.appendChild(headerRow);
+
       // Create the data rows
       for (let i = 0; i < rows; i++) {
         const row = document.createElement('tr');
-        for (let j = 0; j < columns; j++) {
+        let temp = '' ;
+        for (let j = 0; j <=columns; j++) {
           const cell = document.createElement('td');
-        //   cell.textContent = `${j}`;
-        cell.textContent = binaryArray[i][j];
+          if( j == columns){
+              const values = {};
+              for (let k = 0; k < distinctAlphabets.length; k++) {
+                values[distinctAlphabets[i]] = parseInt(temp.charAt(i));
+              }
+              const result = evaluateExpression(convertedExpression , values);
+              cell.textContent = result;
+          }else{
+            temp += binaryArray[i][j] ;
+            cell.textContent = binaryArray[i][j];
+          }
           row.appendChild(cell);
+          
         }
         table.appendChild(row);
       }
 
-      document.body.appendChild(table);
+
+
+
     }
 
 
