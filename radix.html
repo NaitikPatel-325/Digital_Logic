@@ -8,16 +8,28 @@
 </head>
 <body>
     <div class="cover">
-        <h1>Convert any decimal into any base</h1>
-        <label for="base-input">Enter The Number:</label>
-        <input type="number" id="base-input" name="base">
-        <label for="conversion-type">Select Base:</label>
-        <select id="conversion-type" name="conversionType" onchange="handleConversionType()">
+        <h1>Convert any Number</h1>
+        <label for="conversion-type2">From:</label>
+        <select id="conversion-type2" name="conversionType" onchange="handleConversionType2()">
             <option value="binary">Binary</option>
             <option value="octal">Octal</option>
             <option value="hexadecimal">Hexadecimal</option>
+            <option value="decimal">decimal</option>
             <option value="other">other</option>
         </select>
+
+        <label for="conversion-type1">To:</label>
+        <select id="conversion-type1" name="conversionType" onchange="handleConversionType1()">
+            <option value="binary">Binary</option>
+            <option value="octal">Octal</option>
+            <option value="hexadecimal">Hexadecimal</option>
+            <option value="decimal">decimal</option>
+            <option value="other">other</option>
+        </select>
+
+        <label for="base-input">Enter The Number:</label>
+        <input type="number" id="base-input" name="base">
+
         <button type="button" onclick="conversion()">Convert It</button>
         <p id="converted-number"></p>
     </div>
