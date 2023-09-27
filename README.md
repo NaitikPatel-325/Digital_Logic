@@ -8,4 +8,3 @@ This project is related to Semiconductors and Logic Gates .
 
 - Radix Number System   
 - Truth-Table Generator
-- K-Map Solver
