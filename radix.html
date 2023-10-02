@@ -33,7 +33,7 @@
         }
 
         select,
-        input[type="number"] {
+        input[type="text"] { /* Changed input type from "number" to "text" */
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -59,6 +59,12 @@
             background-color: #0056b3;
         }
 
+        #error { 
+            color: red;
+            text-align: center;
+            display: none;
+        }
+
         #converted-number {
             font-size: 18px;
             margin-top: 20px;
@@ -71,28 +77,29 @@
 <body>
     <div class="cover">
         <h1>Convert any Number</h1>
-        <label for="conversion-type2">From:</label>
-        <select id="conversion-type2" name="conversionType" onchange="handleConversionType2()">
-            <option value="binary">Binary</option>
-            <option value="octal">Octal</option>
-            <option value="hexadecimal">Hexadecimal</option>
-            <option value="decimal">decimal</option>
-            <option value="other">other</option>
+        <label for="from-select">From:</label>
+        <select id="from-select" name="fromConversionType">
+            <option value="Binary">Binary</option>
+            <option value="Octal">Octal</option>
+            <option value="Hexadecimal">Hexadecimal</option>
+            <option value="Decimal">Decimal</option>
         </select>
 
-        <label for="conversion-type1">To:</label>
-        <select id="conversion-type1" name="conversionType" onchange="handleConversionType1()">
-            <option value="binary">Binary</option>
-            <option value="octal">Octal</option>
-            <option value="hexadecimal">Hexadecimal</option>
-            <option value="decimal">decimal</option>
-            <option value="other">other</option>
+        <label for="to-select">To:</label>
+        <select id="to-select" name="toConversionType">
+            <option value="Binary">Binary</option>
+            <option value="Octal">Octal</option>
+            <option value="Hexadecimal">Hexadecimal</option>
+            <option value="Decimal">Decimal</option>
         </select>
 
-        <label for="base-input">Enter The Number:</label>
-        <input type="number" id="base-input" name="base">
+        <label for="from-input">Enter The Number:</label>
+        <input type="text" id="from-input" name="fromInput" placeholder="Binary Number">
 
-        <button type="button" onclick="conversion()">Convert It</button>
+        <label for="to-input">Result:</label>
+        <input type="text" id="to-input" name="toInput" placeholder="Binary Number"> 
+        <button type="button" id="convert-button">Convert It</button>
+        <p id="error"></p>
         <p id="converted-number"></p>
     </div>
 </body>

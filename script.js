@@ -1,217 +1,107 @@
-var b;
-var k;
+const fs = document.getElementById("from-select");
+const ts = document.getElementById("to-select");
+const fi = document.getElementById("from-input");
+const ti = document.getElementById("to-input");
+const err = document.getElementById("error");
 
-function handleConversionType1() //for to
-{
-    var selectElement = document.getElementById("conversion-type1").value;
+let frm = "Binary", to = "Binary";
+// console.log(fs.options);
 
-    if (selectElement === "other") {
-        b = prompt("Enter the custom base");
-        b = parseInt(b, 10);
+fs.addEventListener("change", function () {
+    frm = fs.options[fs.selectedIndex].text;
+    fi.placeholder = frm + " Number";
+});
+
+ts.addEventListener("change", function () {
+    to = ts.options[ts.selectedIndex].text;
+    ti.placeholder = to + " Number";
+});
+
+fi.addEventListener("input", function () {
+    err.style.display = "none";
+});
+
+let fv;
+document.getElementById("convert-button").addEventListener("click", function () {
+    switch (frm) {
+        case "Binary":
+            fv = fi.value;
+            if (/^[01]*$/.test(fv)) {
+                switch (to) {
+                    case "Decimal": ti.value = parseInt(fv, 2);
+                        break;
+                    case "Hexadecimal": ti.value = parseInt(fv, 2).toString(16).toUpperCase();
+                        break;
+                    case "Octal": ti.value = parseInt(fv, 2).toString(8);
+                        break;
+                    default: ti.value = fv;
+                }
+            } else {
+                err.innerText = "Invalid " + frm + " Number";
+                ti.value = "";
+            }
+            break;
+
+        case "Decimal":
+            fv = fi.value;
+            if (/^[0-9]*$/.test(fv)) 
+            {
+                switch (to) 
+                {
+                    case "Binary": ti.value = Math.abs(fv).toString(2);
+                        break;
+                    case "Hexadecimal": ti.value = Math.abs(fv).toString(16).toUpperCase();
+                        break;
+                    case "Octal": ti.value = Math.abs(fv).toString(8);
+                        break;
+                    default: ti.value = fv;
+                }
+            } 
+            else 
+            {
+                err.innerText = "Invalid " + frm + " Number";
+                ti.value = "";
+            }
+            break;
+
+        case "Hexadecimal":
+            fv = fi.value;
+            if (/^[0-9a-fA-F]*$/.test(fv)) {
+                switch (to) {
+                    case "Binary": ti.value = parseInt(fv, 16).toString(2);
+                        break;
+                    case "Decimal": ti.value = parseInt(fv, 16);
+                        break;
+                    case "Octal": ti.value = parseInt(fv, 16).toString(8);
+                        break;
+                    default: ti.value = fv;
+                }
+            } 
+            else 
+            {
+                err.innerText = "Invalid " + frm + " Number";
+                ti.value = "";
+            }
+            break;
+
+        case "Octal":
+            fv = fi.value;
+            if (/^[0-7]*$/.test(fv)) {
+                switch (to) {
+                    case "Binary": ti.value = parseInt(fv, 8).toString(2);
+                        break;
+                    case "Decimal": ti.value = parseInt(fv, 8);
+                        break;
+                    case "Hexadecimal": ti.value = parseInt(fv, 8).toString(16).toUpperCase();
+                        break;
+                    default: ti.value = fv;
+                }
+            } 
+            else 
+            {
+                err.innerText = "Invalid " + frm + " Number";
+                ti.value = "";
+            }
+            break;
     }
-}
-
-function handleConversionType2() //for from
-{
-    var selectElement = document.getElementById("conversion-type2").value;
-
-    if (selectElement === "other") {
-        k = prompt("Enter the custom base");
-        k = parseInt(k, 10);
-    }
-}
-
-
-
-function conversion() {
-    var selectElement1 = document.getElementById("conversion-type1").value;
-    var selectElement2 = document.getElementById("conversion-type2").value;
-    
-    if (selectElement1 === "binary") {
-        b = 2;
-    } else if (selectElement1 === "octal") {
-        b = 8;
-    } else if (selectElement1 === "hexadecimal") {
-        b = 16;
-    }else if (selectElement2 === "decimal"){
-        b = 10;
-    }else{}
-
-    if (selectElement2 === "binary") {
-        k = 2;
-    } else if (selectElement2 === "octal") {
-        k = 8;
-    } else if (selectElement2 === "hexadecimal") {
-        k = 16;
-    }else if (selectElement2 === "decimal"){
-        k = 10;
-    }else{}
-
-    // console.log(k);
-
-    if( document.getElementById('base-input').value == ''){
-        alert("Please enter the number");
-    }
-    else{
-        var num = parseFloat(document.getElementById('base-input').value);
-
-        if (isNaN(num)) {
-            alert("Invalid input. Please enter a valid number.");
-            return;
-        }
-        if(k!=10){
-            // console.log("hii0123");
-            var n3 = num - parseInt(num);
-            var p1 = parseInt(num);
-            var sum = 0;
-            const l=[];
-            while(p1 != 0){
-                var z = p1%10;
-                l.push(z);
-                p1 = Math.floor(p1 / 10);
-            }
-            for(let i=0;i<l.length;i++){
-                sum = sum + Math.pow(k,i) * l[i];
-            }
-            // console.log(sum);
-            
-            const l2=[];
-            var sumf = 0;
-            var j = 0;
-            // console.log(n3);
-            while(n3 != 0 && j<4){
-                n3 = n3*10
-                z = n3%10;
-                l2.push(z);
-                j++;
-            }
-        
-            for (let i = 0; i < l.length; i++) {
-                sumf = sumf + Math.pow(k, -(i + 1)) *parseInt(l2[i]);
-                console.log(sumf);
-            }
-            
-        }
-
-        var n1 = num - parseInt(num);
-
-        var p = sum; 
-
-        if (n1 === 0) {
-            const a = [];
-            var i = 0;
-            num = p;
-            while (num !== 0) {
-                var temp = num % b;
-                if(temp<10){
-                    a[i]=temp;
-                }
-                else if(temp===10){
-                    a[i]='A';
-                }
-                else if(temp===11){
-                    a[i]='B';
-                }
-                else if(temp===12){
-                    a[i]='C';
-                }
-                else if(temp===13){
-                    a[i]='D';
-                }
-                else if(temp===14){
-                    a[i]='E';
-                }
-                else{
-                    a[i]='f';
-                }
-                num = Math.floor(num / b);
-                i++;
-            }
-            let ans = "";
-            while(i--){
-                ans = ans + String(a[i]);
-            }
-            var p = document.getElementById('converted-number');
-            p.innerHTML = `The Number is converted into ${ans}`;
-        }   
-        else 
-        {
-            const a = [];
-            var i = 0;
-            while (p !== 0) {
-                var temp = p % b;
-                // console.log(typeof temp);
-                if(temp<10){
-                    a[i]=temp;
-                    // console.log("hii",temp);
-                    }
-                else if(temp===10){
-                    a[i]='A';
-                }
-                else if(temp===11){
-                    a[i]='B';
-                }
-                else if(temp===12){
-                    a[i]='C';
-                }
-                else if(temp===13){
-                    a[i]='D';
-                }
-                else if(temp===14){
-                    a[i]='E';
-                }
-                else{
-                    a[i]='f';
-                }
-                p = Math.floor(p/ b);
-                i++;
-            
-            }
-            var ans = "";               
-            while (i--) {
-                ans = ans + String(a[i]);
-            }
-            var f = sumf;
-            var ansf = "";
-        
-            while (f !== 0 && ansf.length < 4) {
-                f = f * b;
-                // console.log(typeof f);
-                // console.log(typeof temp);
-                f1 = parseInt(f);
-                var n2;
-                if(f1<10){
-                    n2 = f1;
-                    // console.log(n2);
-                }
-                else if(f1===10){
-                    n2='A';
-                }
-                else if(f1===11){
-                    n2='B';
-                }
-                else if(f1===12){
-                    n2='C';
-                }
-                else if(f1===13){
-                    n2='D';
-                }
-                else if(f1===14){
-                    n2='E';
-                }
-                else{
-                    n2='F';
-                }
-                ansf = ansf + n2 
-                f = f - f1;
-            }
-        
-            // console.log(ans);
-            // console.log(ansf);
-            var p = document.getElementById('converted-number');
-            p.innerHTML = `The Number is converted into ${ans} . ${ansf}`;
-        }
-
-    }
-   
-}
+});
